@@ -43,46 +43,44 @@ for chatRoom in chats:
 log("OK",43,"Good!! ChatRoom was defind :)")
 
 # FIND & EXEC COMMANDS
-try: messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-except selenium.common.exceptions.StaleElementReferenceException:
+def findCommands():
 	try:
-		messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"]))
-	except selenium.common.exceptions.StaleElementReferenceException:
-		try:
-			messages = browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-		except selenium.common.exceptions.StaleElementReferenceException:
-			messages = []
-	
+		messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
+	except Exception as e:
+		if type(e) == selenium.common.exceptions.StaleElementReferenceException or type(e) == selenium.common.exceptions.NoSuchElementException:
+			try:
+				messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"]))
+			except Exception as ee:
+				if type(ee) == selenium.common.exceptions.StaleElementReferenceException or type(ee) == selenium.common.exceptions.NoSuchElementException:
+					try:
+						messages = browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
+					except Exception as eee :
+						if type(eee) == selenium.common.exceptions.StaleElementReferenceException or type(eee) == selenium.common.exceptions.NoSuchElementException : messages = []
+	return messages
+
 
 log("OK",48,"ChatRoom’s messages was saved. let's executing thats!")
+Messages = findCommands()
 while 1:
 	print("i’m in the while loop")
 	conditions, codes = [j.split("->")[0] for j in open("callback.txt").read().strip().split("\n")], [m.split("->")[1] for m in open("callback.txt").read().strip().split("\n")]
-	for message in messages:
+	for i in Messages:
 		print("i’m in the message foreach loop")
-		if message.text in conditions and message.text != "else":
-			opt.reply(message)
-			exec(codes[conditions.index(message.text)])
+		if i.text in conditions and i.text != "else":
+			opt.reply(i)
+			exec(codes[conditions.index(i.text)])
 
-		elif not message.text in conditions and message.text != "else":
+		elif not i.text in conditions and i.text != "else":
 			exec(codes[conditions.index("else")])
 		
-		print("TEXT= ",message.text)
+		print("TEXT= ", i.text)
 	print("message loop ended")
 	log("OK",57,"ChatRoom’s messages executed!")
 
 	# getting updates
 	opt.send("get updates...",bool(int(configValues[configKeys.index("send_by_enter")])))
-	oldMessages = messages
-	try: messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-	except selenium.common.exceptions.StaleElementReferenceException:
-		try:
-			messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"]))
-		except selenium.common.exceptions.StaleElementReferenceException:
-			try:
-				messages = browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-			except selenium.common.exceptions.StaleElementReferenceException:
-				messages = []
+	oldMessages = Messages
+	Messages = findCommands()
 
 	# don’t reaction to old messages
 	retrys = 0
@@ -90,16 +88,7 @@ while 1:
 		print(f"\rretry for {retrys} time(s) for getting new messages.",end="")
 		retrys += 1
 		
-		try: messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-		except selenium.common.exceptions.StaleElementReferenceException:
-			try:
-				messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"]))
-			except selenium.common.exceptions.StaleElementReferenceException:
-				try:
-					messages = browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
-				except selenium.common.exceptions.StaleElementReferenceException:
-					messages = []
-	
-		if len(messages) != len(oldMessages): break
+		Messages = findCommands()
+		if len(Messages) != len(oldMessages): break
 
 	print("\nnew messages was sent, i’m going to executing that")

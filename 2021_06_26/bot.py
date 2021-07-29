@@ -89,11 +89,11 @@ class Bot:
 		
 
 if __name__ == '__main__':
-	print("Rubika Library 1.0.0\nfor help follow http://rubit.ir/1.0.0")
+	print("Rubit Library 1.0.0\nfor help follow http://ru-bit.ir/last")
 	bot = Bot()
 	bot.login()
 	bot.opt.goto(Bot.configValues[Bot.configKeys.index("chat")])
 	bot.runCommands()
 
 else:
-	print("Rubika Library 1.0.0\nfor help follow http://rubit.ir/1.0.0")
+	print("Rubit Library 1.0.0\nfor help follow http://ru-bit.ir/last")
