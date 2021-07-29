@@ -1,2 +1,2 @@
-# rubit
-make your rubika bot.!
+# rubika
+rubika bot

@@ -1,0 +1,4 @@
+driver=C:\Users\UserName\chromedriver
+phone=9012345678
+chat=chat_title
+send_by_enter=1
