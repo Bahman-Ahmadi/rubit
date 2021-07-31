@@ -44,6 +44,7 @@ log("OK",43,"Good!! ChatRoom was defind :)")
 
 # FIND & EXEC COMMANDS
 def findCommands():
+	messages = []
 	try:
 		messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
 	except Exception as e:
