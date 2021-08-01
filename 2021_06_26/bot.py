@@ -7,16 +7,15 @@ from bs4 import BeautifulSoup as _BeautifulSoup
 
 
 class Bot:
-	@staticmethod
-	def _accessFile(filename):
+	def _accessFile(self,filename):
 		_here = _path.dirname(_path.dirname(_path.abspath(__file__)))
 		return _path.join(_here,filename)
 
-	configs = list(map(lambda x:x.split("="),open(_accessFile("config.txt")).read().strip().split("\n")))
+	configs = list(map(lambda x:x.split("="),open(_accessFile(0,"config.txt")).read().strip().split("\n")))
 	configKeys = [m[0] for m in configs]
 	configValues = [n[1] for n in configs]
-	conditions = [j.split("->")[0] for j in open(_accessFile("callback.txt")).read().strip().split("\n")]
-	codes = [k.split("->")[1] for k in open(_accessFile("callback.txt")).read().strip().split("\n")]
+	conditions = [j.split("->")[0] for j in open(_accessFile(0,"callback.txt")).read().strip().split("\n")]
+	codes = [k.split("->")[1] for k in open(_accessFile(0,"callback.txt")).read().strip().split("\n")]
 	browser = _Chrome(configValues[configKeys.index("driver")])
 	opt = _options.run(browser)
 
@@ -26,7 +25,7 @@ class Bot:
 		time = '-'.join(str(_datetime.datetime.now()).split(' ')[1].split(':'))[:8]
 		name = f"logcat_{date}-{time}.txt"
 		try:
-			open(Bot._accessFile(name),"x")
+			open(Bot._accessFile(0,name),"x")
 			logcat = open(name,"a+")
 			logcat.write(f"		this robot logcat maked at {str(_datetime.datetime.now())}		\n\n")
 		except:

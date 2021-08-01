@@ -46,17 +46,19 @@ log("OK",43,"Good!! ChatRoom was defind :)")
 def findCommands():
 	messages = []
 	try:
-		messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
+		messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_elements_by_xpath(opt.xpather(["div","dir","ltr"]))
 	except Exception as e:
 		if type(e) == selenium.common.exceptions.StaleElementReferenceException or type(e) == selenium.common.exceptions.NoSuchElementException:
 			try:
-				messages = browser.find_element_by_xpath(opt.xpather(["div","dir","rtl"]))
+				messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","rtl"]))
 			except Exception as ee:
 				if type(ee) == selenium.common.exceptions.StaleElementReferenceException or type(ee) == selenium.common.exceptions.NoSuchElementException:
 					try:
-						messages = browser.find_element_by_xpath(opt.xpather(["div","dir","ltr"]))
+						messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","ltr"]))
 					except Exception as eee :
-						if type(eee) == selenium.common.exceptions.StaleElementReferenceException or type(eee) == selenium.common.exceptions.NoSuchElementException : messages = []
+						if type(eee) == selenium.common.exceptions.StaleElementReferenceException or type(eee) == selenium.common.exceptions.NoSuchElementException :
+							print(eee)
+							messages = []
 	return messages
 
 
