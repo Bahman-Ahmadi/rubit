@@ -40,7 +40,7 @@ class run:
 
 	def reply(self,message_element):
 		message_element.click()
-		self.driver.find_element_by_xpath("//button[@rb-localize=\"message_action_reply\"]").click()
+	    self.driver.find_element_by_xpath("//a[@rb-localize=\"im_reply\"]").click()
 
 
 	def delete(self,message_element):

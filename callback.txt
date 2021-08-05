@@ -1,4 +1,4 @@
-test->Bot.opt.send("its an answer for test!!",Bot.configValues[Bot.configKeys.index("send_by_enter")])
-name->opt.send("bpr bit bot",bool(int(configValues[configKeys.index("send_by_enter")])))
-hello->opt.send("Hello Friend!",bool(int(configValues[configKeys.index("send_by_enter")])))
-else->opt.send("command not found",bool(int(configValues[configKeys.index("send_by_enter")])))
+test->opt.send("its an answer for test!!",1)
+name->opt.send("bpr bit bot",1)
+hello->opt.send("Hello Friend!",1)
+else->opt.send("command not found",1)
