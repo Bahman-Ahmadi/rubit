@@ -76,7 +76,7 @@ while 1:
 		elif not i.text in conditions and i.text != "else":
 			exec(codes[conditions.index("else")])
 		
-		print("TEXT= ", i.text)
+		opt.send("TEXT= "+i.text,1)
 	print("message loop ended")
 	log("OK",57,"ChatRoom’s messages executed!")
 
