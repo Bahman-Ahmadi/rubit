@@ -1,4 +1,4 @@
-test->opt.send("its an answer for test!!",1)
-name->opt.send("bpr bit bot",1)
-hello->opt.send("Hello Friend!",1)
-else->opt.send("command not found",1)
+test->opt.send("its an answer for test!!",True)
+name->opt.send("bpr bit bot",True)
+hello->opt.send("Hello Friend!",True)
+else->opt.send("command not found",True)
