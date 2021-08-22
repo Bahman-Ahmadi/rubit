@@ -27,14 +27,6 @@ class run:
 		print("\nlogged in!")
 
 
-	def goto(self, title):
-		chats = self.driver.find_elements_by_xpath(run.xpather(["span","verified","true"]))
-		for chatRoom in chats:
-			if chatRoom.text == title:
-				chats[chats.index(chatRoom)].click()
-				break
-
-
 	def send(self,msg,shouldSendWithEnter):
 		field = self.driver.find_element_by_xpath('//div[@class="composer_rich_textarea"]')
 		if shouldSendWithEnter:
@@ -44,21 +36,21 @@ class run:
 			self.driver.find_element_by_xpath('//button[@class="im_submit"]').click()
 
 
-	def reply(self,message_element):
-		message_element.click()
-		self.driver.find_element_by_xpath("//a[@rb-localize=\"im_reply\"]").click()
+	def reply(self,message_id):
+		self.driver.find_elements_by_xpath("//span[contains(@dir, 'rtl')]")[message_id].click()
+		self.driver.find_element_by_xpath("//button[@rb-localize=\"message_action_reply\"]").click()
 
 
-	def delete(self,message_element):
-		message_element.click()
+	def delete(self,message_id):
+		self.driver.find_elements_by_xpath("//span[contains(@dir, 'rtl')]")[message_id].click()
 		self.driver.find_element_by_xpath("//button[@rb-localize=\"message_action_delete\"]").click()
 		self.driver.find_element_by_xpath("//i[@class=\"icon-checkbox-inner\"]").click()
 		self.driver.find_element_by_xpath("//span[rb-localize=\"confirm_modal_messages_delete_submit\"]").click()
 
 
-	def forward(self,message_element):
+	def forward(self,message_id):
 		self.driver.find_element_by_xpath("//button[@rb-localize=\"message_action_forward\"]").click()
-		message_element.click()
+		self.driver.find_elements_by_xpath("//span[contains(@dir, 'rtl')]")[message_id].click()
 		self.driver.find_element_by_xpath('//button[@class="im_submit"]').click()
 
 

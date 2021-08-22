@@ -1,4 +1,6 @@
-versions = open("versions.txt").read().strip().split("\n")
+from subprocess import getoutput
+
+versions = [i for i in getoutput("ls").split("\n") if "_" in i]
 numricalLastVersion, lastVersion = 0,""
 for v in versions:
     numricalThisVersion = int(v.replace("_",""))

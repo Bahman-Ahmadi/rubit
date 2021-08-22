@@ -7,7 +7,6 @@ class run:
 
 
 	def login(self,phone):
-
 		self.driver.find_element_by_name("phone_number").send_keys(phone)
 		self.driver.find_element_by_xpath("//span[@msgid=\"modal_next\"]").click()
 		self.driver.find_element_by_xpath("//span[@rb-localize=\"modal_ok\"]").click()
@@ -48,9 +47,9 @@ class run:
 		self.driver.find_element_by_xpath("//span[rb-localize=\"confirm_modal_messages_delete_submit\"]").click()
 
 
-	def forward(self,message_id):
+	def forward(self,message):
 		self.driver.find_element_by_xpath("//button[@rb-localize=\"message_action_forward\"]").click()
-		self.driver.find_elements_by_xpath("//span[contains(@dir, 'rtl')]")[message_id].click()
+		message.click()
 		self.driver.find_element_by_xpath('//button[@class="im_submit"]').click()
 
 

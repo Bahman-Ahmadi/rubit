@@ -1,4 +1,4 @@
-import selenium.webdriver, selenium.common, options, datetime
+import selenium.webdriver, options, datetime
 
 # VARIABLES
 configs = list(map(lambda x:x.split("="),open("config.txt").read().strip().split("\n")))
@@ -16,6 +16,7 @@ def log(mode,line,data):
 logcat.write(f"		this robot logcat maked at {str(datetime.datetime.now())}		\n\n")
 browser = selenium.webdriver.Chrome(configValues[configKeys.index("driver")])
 opt = options.run(browser)
+log("OK", 20, "browser opened successful.")
 
 # LOGIN
 browser.get("https://web.rubika.ir")
@@ -26,63 +27,46 @@ while 1:
 	except:
 		continue
 
+log("OK",31,"successfully logged in")
+
 # FIND & GO TO CHAT
 chats = browser.find_elements_by_xpath(opt.xpather(["span","verified","true"]))
+log("OK",35,"chats was defind. i’m searching for ChatRoom.")
+
 
 for chatRoom in chats:
 	if chatRoom.text == configValues[configKeys.index("chat")]:
 		chats[chats.index(chatRoom)].click()
 		break
 
-
+log("OK",43,"Good!! ChatRoom was defind :)")
 
 # FIND & EXEC COMMANDS
-def findCommands():
-	messages = []
-	try:
-		messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","rtl"])) + browser.find_elements_by_xpath(opt.xpather(["div","dir","ltr"]))
-	except Exception as e:
-		if type(e) == selenium.common.exceptions.StaleElementReferenceException or type(e) == selenium.common.exceptions.NoSuchElementException:
-			try:
-				messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","rtl"]))
-			except Exception as ee:
-				if type(ee) == selenium.common.exceptions.StaleElementReferenceException or type(ee) == selenium.common.exceptions.NoSuchElementException:
-					try:
-						messages = browser.find_elements_by_xpath(opt.xpather(["div","dir","ltr"]))
-					except Exception as eee :
-						if type(eee) == selenium.common.exceptions.StaleElementReferenceException or type(eee) == selenium.common.exceptions.NoSuchElementException :
-							print(eee)
-							messages = []
-	return messages
-
-Messages = findCommands()
-for e in Messages:
-	log("LOG",66,e)
-
+messages = opt.getElementsData(opt.xpather(["div","dir","ltr"]))
+conditions, codes = [j.split("->")[0] for j in open("callback.txt").read().strip().split("\n")], [m.split("->")[1] for m in open("callback.txt").read().strip().split("\n")]
+for message in messages: print(message)
+log("OK",48,"ChatRoom’s messages was saved. let's executing thats!")
 while 1:
-	conditions, codes = [j.split("->")[0] for j in open("callback.txt").read().strip().split("\n")], [m.split("->")[1] for m in open("callback.txt").read().strip().split("\n")]
-
-	for i in Messages:
-		opt.reply(i)
-		opt.send("TEXT= "+str(i.text),True)
-		'''
-		if str(i.text) in conditions and str(i.text) != "else":
-			exec(codes[conditions.index(str(i.text))])
-		elif not str(i.text) in conditions and str(i.text) != "else":
-			exec(codes[conditions.index("else")])
-		'''
-
+	print("i’m in the while loop")
+	for message in messages:
+		print("i’m in the message foreach loop")
+		if message in conditions and message != "else": exec(codes[conditions.index(message)])
+		else: exec(codes[conditions.index("else")])
+	print("message loop ended")
+	log("OK",57,"ChatRoom’s messages executed!")
 
 	# getting updates
 	opt.send("get updates...",bool(int(configValues[configKeys.index("send_by_enter")])))
-	oldMessages = Messages
-	Messages = findCommands()
+	oldMessages = messages
+	messages = opt.getElementsData(opt.xpather(["div","dir","ltr"]))
 
 	# don’t reaction to old messages
-	retrys = 0
+	retries = 0
 	while 1:
-		print(f"\rretry for {retrys} time(s) for getting new messages.",end="")
-		retrys += 1
-	
-		Messages = findCommands()
-		if len(Messages) != len(oldMessages): break
+		print(f"\rretry for {retries} time(s) for getting new messages.",end="")
+		retries += 1
+
+		messages = opt.getElementsData(opt.xpather(["div","dir","ltr"]))
+		if len(messages) != len(oldMessages): break
+
+	print("\nnew messages was sent, i’m going to executing that")
