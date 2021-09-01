@@ -16,7 +16,9 @@ class Bot:
 
 	settings = _configuration()
 	settings.read(_accessFile(0,"settings.ini"))
-	browser = _Chrome(settings["configs"]["driver"])
+    c_options = _ChromeOptions()
+    options.binary_location = settings["configs"]["browser"]
+	browser = _Chrome(settings["configs"]["driver"],options=c_options)
 	opt = options.run(browser)
 
 	@staticmethod
