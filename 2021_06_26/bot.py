@@ -37,10 +37,9 @@ class Bot:
 
 	@staticmethod
 	def login(**settings):
-		options = _ChromeOptions()
-		options.add_argument('user-data-dir=selenium')
+		c_options.add_argument('user-data-dir=selenium')
 		try:
-			Bot.browser = _Chrome(options=options, **settings)
+			Bot.browser = _Chrome(options=c_options, **settings)
 		except _InvalidArgumentException:
 			raise Exception("another window(s) is running, you should first close that(s).")
 		else:
