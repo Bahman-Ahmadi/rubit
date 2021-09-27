@@ -29,7 +29,7 @@ class Bot:
 		try:
 			open(Bot._accessFile(0,name),"x")
 			logcat = open(name,"a+")
-			logcat.write(f"		this robot logcat maked at {str(_datetime.datetime.now())}		\n\n")
+			logcat.write(f"			this robot logcat maked at {str(_datetime.datetime.now())}				\n\n")
 		except:
 			logcat = open(name,"a+")
 
@@ -37,9 +37,9 @@ class Bot:
 
 	@staticmethod
 	def login(**settings):
-		c_options.add_argument('user-data-dir=selenium')
+		Bot.c_options.add_argument('user-data-dir=selenium')
 		try:
-			Bot.browser = _Chrome(options=c_options, **settings)
+			Bot.browser = _Chrome(options=Bot.c_options, **settings)
 		except _InvalidArgumentException:
 			raise Exception("another window(s) is running, you should first close that(s).")
 		else:
