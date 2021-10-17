@@ -37,7 +37,7 @@ class Bot:
 
 	@staticmethod
 	def login(**settings):
-		Bot.c_options.add_argument('user-data-dir=selenium')
+		Bot.c_options.add_argument(f'user-data-dir={settings["configs"]["browser"]}')
 		try:
 			Bot.browser = _Chrome(options=Bot.c_options, **settings)
 		except _InvalidArgumentException:
